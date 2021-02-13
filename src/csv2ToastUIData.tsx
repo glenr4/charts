@@ -1,6 +1,6 @@
 // Converts CSV data into this format for Toast UI library
 // https://github.com/nhn/tui.chart
-// const data = {
+//  {
 // categories: ['June', 'July', 'Aug', 'Sep', 'Oct', 'Nov'],
 // series: [
 //     {
@@ -14,7 +14,16 @@
 // ],
 // };
 // Note: assumed format of CSV columns is: xSeries, ySeries0, ySeries1...
-const csv2ToastUIData = (csv: string): object => {
+interface series {
+    name: string, data: number[]
+}
+
+interface ToastUIData {
+    categories: string[],
+    series: series[]
+}
+
+const csv2ToastUIData = (csv: string): ToastUIData => {
     var lines = csv.split("\n");
 
     var seriesHeaders: string[] = lines[0].split(",");
@@ -36,7 +45,7 @@ const csv2ToastUIData = (csv: string): object => {
         }
     }
 
-    var series: {}[] = [];
+    var series: series[] = [];
     for (var m = 1; m < seriesHeaders.length; m++) {
         series.push({ name: seriesHeaders[m], data: ySeries[m - 1] });
     }
